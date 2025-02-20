@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://bjgbdsx11vdsp"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_th6dd"]
+[ext_resource type="Texture2D" uid="uid://ccx5yfrfwtb07" path="res://assets/enemy.png" id="2_qr6r0"]
+[ext_resource type="Script" path="res://EnemyHelper.cs" id="3_d1dv3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rt1hu"]
+radius = 20.0
+
+[node name="Enemy" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 2
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_th6dd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rt1hu")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+radius = 32.0
+max_speed = 300.0
+avoidance_layers = 7
+avoidance_mask = 7
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 0)
+collision_mask = 3
+
+[node name="SubSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_qr6r0")
+offset = Vector2(0, -45)
+
+[node name="Movement" type="Node2D" parent="."]
+script = ExtResource("3_d1dv3")
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://cb6dgfq2d86es"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_51130"]
+resource_local_to_scene = true
+source_geometry_mode = 1
+source_geometry_group_name = &"tilemap"
+cell_size = 8.0
+agent_radius = 20.0
+
+[sub_resource type="GDScript" id="GDScript_yfphh"]
+script/source = "extends NavigationRegion2D
+
+const arr = [Vector2.ZERO,
+		 Vector2(Main.CHUNK_LEN * Main.TILE_SIZE, 0),
+		Vector2(Main.CHUNK_LEN * Main.TILE_SIZE, Main.CHUNK_LEN * Main.TILE_SIZE),
+		Vector2(0, Main.CHUNK_LEN * Main.TILE_SIZE),
+		]
+
+func set_outline():
+	navigation_polygon.add_outline(arr)
+	
+func _ready() -> void:
+	return
+"
+
+[node name="NavigationRegion2D" type="NavigationRegion2D"]
+navigation_polygon = SubResource("NavigationPolygon_51130")
+script = SubResource("GDScript_yfphh")

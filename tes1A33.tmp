@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://dc5we2psi3sdq"]
+
+[ext_resource type="Script" path="res://test_tile.gd" id="1_d5fx3"]
+[ext_resource type="Texture2D" uid="uid://cvhu6bomi2m5o" path="res://assets/wall.png" id="2_0pgfs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bap1p"]
+size = Vector2(128, 128)
+
+[sub_resource type="Shader" id="Shader_gs0s6"]
+code = "shader_type canvas_item;
+
+uniform float whiteness : hint_range(0.0, 1.0) = 0.5;
+
+void fragment() {
+    vec4 color = texture(TEXTURE, UV);
+    vec3 white = vec3(1.0);
+    color.rgb = mix(color.rgb, white, whiteness);
+    COLOR = color;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5rhfw"]
+shader = SubResource("Shader_gs0s6")
+shader_parameter/whiteness = 1.0
+
+[sub_resource type="Animation" id="Animation_d2mv8"]
+resource_name = "mine"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_upw5y"]
+_data = {
+"mine": SubResource("Animation_d2mv8")
+}
+
+[node name="TestTile" type="StaticBody2D"]
+script = ExtResource("1_d5fx3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bap1p")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(2, 0, 0, 1)
+material = SubResource("ShaderMaterial_5rhfw")
+texture = ExtResource("2_0pgfs")
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_upw5y")
+}

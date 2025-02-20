@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxil2pj5slyct"]
+
+[ext_resource type="Texture2D" uid="uid://dnv5xk3gogmv8" path="res://icon.svg" id="1_5h0ys"]
+
+[node name="Village" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 1, 0, 1)
+z_index = 3
+texture = ExtResource("1_5h0ys")

@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://dc5we2psi3sdq"]
+
+[ext_resource type="Script" path="res://test_tile.gd" id="1_d5fx3"]
+[ext_resource type="Texture2D" uid="uid://cvhu6bomi2m5o" path="res://assets/wall.png" id="2_0pgfs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bap1p"]
+size = Vector2(128, 128)
+
+[sub_resource type="Shader" id="Shader_gs0s6"]
+code = "shader_type canvas_item;
+
+uniform float whiteness : hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+    vec4 color = texture(TEXTURE, UV);
+    vec3 white = vec3(255.0/(255.0/5.0), 187.0/(255.0/5.0), 0.0/255.0);
+    float eased_whiteness = pow(whiteness, 2.0); // Apply an ease-in curve
+    color.rgb = mix(color.rgb, white, eased_whiteness);
+    COLOR = color;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5rhfw"]
+resource_local_to_scene = true
+shader = SubResource("Shader_gs0s6")
+shader_parameter/whiteness = 0.0
+
+[node name="TestTile" type="StaticBody2D"]
+z_index = 2
+script = ExtResource("1_d5fx3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bap1p")
+disabled = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_5rhfw")
+texture = ExtResource("2_0pgfs")

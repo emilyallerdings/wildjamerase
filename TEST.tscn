@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpi3tluno31vv"]
+
+[sub_resource type="GDScript" id="GDScript_xe2gg"]
+script/source = "extends Node2D
+
+var vec_arr = []
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	for i in range(0,16):
+		var angle = TAU * i / 16
+		vec_arr.append(Vector2(cos(angle), sin(angle)))
+	queue_redraw()
+	return
+
+func _draw() -> void:
+	for vec in vec_arr:
+		draw_line(Vector2.ZERO, vec* 50, Color.PINK, 2)
+"
+
+[node name="Node2D" type="Node2D"]
+script = SubResource("GDScript_xe2gg")
+
+[node name="Camera2D" type="Camera2D" parent="."]

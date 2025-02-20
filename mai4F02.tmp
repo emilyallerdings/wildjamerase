@@ -1,0 +1,69 @@
+[gd_scene load_steps=12 format=3 uid="uid://by1yfs5mxdwkc"]
+
+[ext_resource type="Script" path="res://main2.gd" id="1_du0wc"]
+[ext_resource type="Texture2D" uid="uid://dnv5xk3gogmv8" path="res://icon.svg" id="1_xia5i"]
+[ext_resource type="Script" path="res://player.gd" id="2_ci0ln"]
+[ext_resource type="Texture2D" uid="uid://d00a5vysq7vyh" path="res://assets/floor.png" id="3_45o8u"]
+[ext_resource type="Texture2D" uid="uid://cvhu6bomi2m5o" path="res://assets/wall.png" id="4_inyvx"]
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_fs3iq"]
+tile_data = PackedInt32Array(0, 2, 0, 65536, 2, 0, 131072, 2, 0, 196608, 2, 0, 262144, 2, 0, 327680, 2, 0, 1, 2, 0, 65537, 2, 0, 131073, 2, 0, 196609, 2, 0, 262145, 2, 0, 327681, 2, 0, 2, 2, 0, 65538, 2, 0, 131074, 2, 0, 196610, 2, 0, 262146, 2, 0, 327682, 2, 0, 3, 2, 0, 65539, 2, 0, 131075, 2, 0, 196611, 2, 0, 262147, 2, 0, 327683, 2, 0, 4, 2, 0, 65540, 2, 0, 131076, 2, 0, 196612, 2, 0, 262148, 2, 0, 327684, 2, 0, 5, 2, 0, 65541, 2, 0, 131077, 2, 0, 196613, 2, 0, 262149, 2, 0, 327685, 2, 0)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_07lcg"]
+texture = ExtResource("3_45o8u")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uqa3a"]
+texture = ExtResource("4_inyvx")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[sub_resource type="TileSet" id="TileSet_cncuw"]
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 1
+sources/1 = SubResource("TileSetAtlasSource_07lcg")
+sources/2 = SubResource("TileSetAtlasSource_uqa3a")
+pattern_0 = SubResource("TileMapPattern_fs3iq")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0a52t"]
+radius = 30.0
+height = 60.0
+
+[sub_resource type="GDScript" id="GDScript_xctrs"]
+script/source = "extends Node2D
+
+var main
+
+func _ready() -> void:
+	main = get_parent()
+
+func _draw() -> void:
+	for chunk in main.loaded_chunks:
+		draw_rect(Rect2(chunk * main.CHUNK_LEN * main.TILE_SIZE, Vector2(main.CHUNK_LEN, main.CHUNK_LEN) * main.TILE_SIZE), Color.BLACK, false)
+"
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_du0wc")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_cncuw")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+safe_margin = 1.0
+script = ExtResource("2_ci0ln")
+
+[node name="Icon" type="Sprite2D" parent="Player"]
+position = Vector2(-1.43051e-06, -9.53674e-07)
+scale = Vector2(0.345, 0.345)
+texture = ExtResource("1_xia5i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(-0.5, 0)
+shape = SubResource("CapsuleShape2D_0a52t")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="TestDraw" type="Node2D" parent="."]
+script = SubResource("GDScript_xctrs")
