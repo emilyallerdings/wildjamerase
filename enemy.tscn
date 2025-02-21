@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bjgbdsx11vdsp"]
+[gd_scene load_steps=6 format=3 uid="uid://bjgbdsx11vdsp"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_th6dd"]
 [ext_resource type="Texture2D" uid="uid://ccx5yfrfwtb07" path="res://assets/enemy.png" id="2_qr6r0"]
 [ext_resource type="Script" path="res://EnemyHelper.cs" id="3_d1dv3"]
+[ext_resource type="Texture2D" uid="uid://dnv5xk3gogmv8" path="res://icon.svg" id="4_6u6fm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rt1hu"]
 radius = 20.0
@@ -27,6 +28,7 @@ target_position = Vector2(0, 0)
 collision_mask = 3
 
 [node name="SubSprite" type="Sprite2D" parent="."]
+texture_filter = 1
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_qr6r0")
 offset = Vector2(0, -45)
@@ -34,4 +36,15 @@ offset = Vector2(0, -45)
 [node name="Movement" type="Node2D" parent="."]
 script = ExtResource("3_d1dv3")
 
+[node name="Line2D" type="Line2D" parent="."]
+
+[node name="RecoupTimer" type="Timer" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 0, 1, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_6u6fm")
+
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="timeout" from="RecoupTimer" to="." method="_on_recoup_timer_timeout"]

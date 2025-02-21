@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://d2e76fhhyxjqd"]
+
+[node name="Chunk" type="ColorRect"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 22.0
+offset_bottom = 14.0
+color = Color(0.498, 2, 0, 1)

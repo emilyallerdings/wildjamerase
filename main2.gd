@@ -3,7 +3,7 @@ class_name Main
 
 const CHUNK_LEN = 7
 const CHUNK_SIZE = CHUNK_LEN*CHUNK_LEN
-const RENDER_RAD = 3
+const RENDER_RAD = 2
 const STRUCT_GEN_RAD = 50
 const TILE_SIZE = 128
 
@@ -48,10 +48,22 @@ const ENEMY_GROUP_TOTAL = 32
 var enemy_group = 1
 var enemy_counter = 1
 
+var enemies_to_spawn = 0
+var max_enemies = 100
+
+var wave_timer = 80
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	print(tiles.tile_set.get_source(0).get_tiles_count())
 	
+	$WaveTimer.start(wave_timer)
+	randomize()
+	var new_seed = randi_range(0, 10000)
+	seed(new_seed)
+	noise.seed = new_seed
+	village_noise.seed = new_seed
+	mineral_noise.seed = new_seed
 	#print(floor(-1.0 / CHUNK_LEN))
 	
 	#Global.nav_reg_ref = navigation_region_2d
@@ -205,6 +217,16 @@ func _process(delta: float) -> void:
 		if enemy.group == enemy_group:
 			enemy.update_path()
 	
+	$Player/CanvasLayer/Control2/Control/Time.text = str(round($WaveTimer.time_left))
+	if $WaveTimer.time_left == 0:
+		$Player/CanvasLayer/Control2/Control/Time.text = "NOW"
+	if enemies_to_spawn > 0:
+		var cluster_num = randi_range(1, min(enemies_to_spawn, floor(3*Global.diff_scale)))
+		enemies_to_spawn -= cluster_num
+		var spawn_point = get_spawn_point()
+		for i in range(0,cluster_num):
+			spawn_enemy(spawn_point)
+	
 	#print(Engine.get_frames_per_second())
 	pass
 
@@ -287,9 +309,12 @@ func init_chunk(chunk_vec):
 			
 			
 			if !modified_tiles.has(tile_vec):
-				tiles.set_cell(tile_vec, tile_type, Vector2i.ZERO)
+				tiles.set_cell(tile_vec, tile_type, Vector2i(0,0))
 			else:
-				tiles.set_cell(tile_vec, modified_tiles[tile_vec], Vector2i.ZERO)
+				var atlas_x = 0
+				if modified_tiles[tile_vec] == 0 && randf() > 0.9:
+					atlas_x = randi_range(1,3)
+				tiles.set_cell(tile_vec, modified_tiles[tile_vec], Vector2i(atlas_x,0))
 			#print("set cell: ", Vector2i(chunk_vec.x + x, chunk_vec.y + y))
 
 func tile_in_chunk(tile,chunk):
@@ -328,22 +353,47 @@ func gen_village(tile_vec):
 
 
 func modify_tile_sys(tile_vec, tile_type):
-	tiles.set_cell(tile_vec, tile_type, Vector2i.ZERO)
+
+	tiles.set_cell(tile_vec, tile_type, Vector2i(0,0))
 	modified_tiles[tile_vec] = tile_type
 
 func modify_tile(tile_vec, tile_type):
-	tiles.set_cell(tile_vec, tile_type, Vector2i.ZERO)
+
+	tiles.set_cell(tile_vec, tile_type, Vector2i(0,0))
 	modified_tiles[tile_vec] = tile_type
 	rebake_nav_region(get_chunk_at_tile(tile_vec))
 
+func get_spawn_point():
+	var max_tile_rad = 7
+	var max_dist = max_tile_rad * TILE_SIZE
+	
+	var point = player.position
+	
+	while point.distance_to(player.position) < 512:
+	
+		var rand_pos = Vector2(randi_range(-max_dist, max_dist), randi_range(-max_dist, max_dist))
+		rand_pos += player.position
+		if rand_pos.distance_to($Player.position) < 512:
+			rand_pos += -rand_pos.direction_to($Player.position) * rand_pos.distance_to($Player.position)
+		point = NavigationServer2D.map_get_closest_point(NavigationServer2D.get_maps()[0], rand_pos)
+	
+	return point
+
+func spawn_enemy(position):
+		var n_enemy = ENEMY.instantiate()
+		n_enemy.group = enemy_counter
+		enemy_counter = (enemy_counter + 1) % ENEMY_GROUP_TOTAL
+		n_enemy.global_position = position
+		add_child(n_enemy)
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
-		
-		for i in range(0,100):
-			var n_enemy = ENEMY.instantiate()
-			n_enemy.group = enemy_counter
-			enemy_counter = (enemy_counter + 1) % ENEMY_GROUP_TOTAL
-			n_enemy.global_position = (Vector2i(3,3) * TILE_SIZE + Vector2i.ONE * TILE_SIZE/2)
-			add_child(n_enemy)
+		$WaveTimer.start(1)
 
 		pass
+
+
+func _on_wave_timer_timeout() -> void:
+	enemies_to_spawn = round(randi_range(5,8) * Global.diff_scale)
+	
+	pass # Replace with function body.

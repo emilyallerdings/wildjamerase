@@ -81,7 +81,6 @@ mine={
 [physics]
 
 2d/run_on_separate_thread=true
-common/physics_ticks_per_second=30
 common/max_physics_steps_per_frame=32
 common/physics_jitter_fix=0.0
 2d/physics_engine="GodotPhysics2D"
@@ -90,4 +89,6 @@ common/physics_interpolation=true
 
 [rendering]
 
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
 viewport/hdr_2d=true
