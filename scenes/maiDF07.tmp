@@ -1,0 +1,627 @@
+[gd_scene load_steps=45 format=4 uid="uid://by1yfs5mxdwkc"]
+
+[ext_resource type="Script" path="res://script/main2.gd" id="1_rdjqo"]
+[ext_resource type="Texture2D" uid="uid://d00a5vysq7vyh" path="res://assets/floor.png" id="2_rqoob"]
+[ext_resource type="Texture2D" uid="uid://cvhu6bomi2m5o" path="res://assets/wall.png" id="3_kw56a"]
+[ext_resource type="Texture2D" uid="uid://cfwa10f7sakpy" path="res://assets/hard_wall.png" id="4_ekrv6"]
+[ext_resource type="Texture2D" uid="uid://dtwiv0o2gk7bf" path="res://assets/wall_gem.png" id="5_ihysg"]
+[ext_resource type="Texture2D" uid="uid://t64hp12qbuaw" path="res://assets/hard_wall_gem.png" id="6_tdcu1"]
+[ext_resource type="Script" path="res://script/player.gd" id="7_825ud"]
+[ext_resource type="Texture2D" uid="uid://j3kxm46posaa" path="res://assets/laser.png" id="8_242yw"]
+[ext_resource type="Texture2D" uid="uid://dnv5xk3gogmv8" path="res://assets/icon.svg" id="8_rxkbs"]
+[ext_resource type="Script" path="res://script/health_bar.gd" id="9_8frw3"]
+[ext_resource type="Texture2D" uid="uid://d3g34ttlr1dtb" path="res://assets/village_outline.png" id="10_8dxif"]
+[ext_resource type="Script" path="res://addons/shaker/shaker.gd" id="10_8ioj0"]
+[ext_resource type="AudioStream" uid="uid://d3l4yx0buil1t" path="res://assets/audio/music.mp3" id="11_psey7"]
+[ext_resource type="AudioStream" uid="uid://cwoeoeskt87qc" path="res://assets/audio/laser.ogg" id="11_rub8s"]
+[ext_resource type="Script" path="res://scenes/music_manager.gd" id="11_y3liq"]
+[ext_resource type="AudioStream" uid="uid://dtg0lg8nifjyj" path="res://assets/audio/minigun.ogg" id="14_duf3y"]
+[ext_resource type="AudioStream" uid="uid://bg8owfvi5jrya" path="res://assets/audio/minigun_end.ogg" id="15_cejuw"]
+[ext_resource type="AudioStream" uid="uid://bmdrppmxiaimh" path="res://assets/audio/fight.mp3" id="18_627fb"]
+[ext_resource type="Script" path="res://scenes/restart.gd" id="19_2ejen"]
+[ext_resource type="Script" path="res://scenes/start.gd" id="20_tnt3e"]
+[ext_resource type="Script" path="res://scenes/pause_menu.gd" id="21_5jcl4"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_unddr"]
+noise_type = 3
+frequency = 0.0005
+fractal_octaves = 10
+fractal_lacunarity = 1.945
+fractal_gain = 0.44
+fractal_weighted_strength = 0.33
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pv38c"]
+noise_type = 2
+seed = 6
+frequency = 0.0008
+fractal_type = 2
+fractal_octaves = 2
+cellular_distance_function = 2
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_p7kmj"]
+noise_type = 2
+frequency = 0.1389
+fractal_type = 0
+fractal_gain = 1.26
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_fs3iq"]
+tile_data = PackedInt32Array(0, 2, 0, 65536, 2, 0, 131072, 2, 0, 196608, 2, 0, 262144, 2, 0, 327680, 2, 0, 1, 2, 0, 65537, 2, 0, 131073, 2, 0, 196609, 2, 0, 262145, 2, 0, 327681, 2, 0, 2, 2, 0, 65538, 2, 0, 131074, 2, 0, 196610, 2, 0, 262146, 2, 0, 327682, 2, 0, 3, 2, 0, 65539, 2, 0, 131075, 2, 0, 196611, 2, 0, 262147, 2, 0, 327683, 2, 0, 4, 2, 0, 65540, 2, 0, 131076, 2, 0, 196612, 2, 0, 262148, 2, 0, 327684, 2, 0, 5, 2, 0, 65541, 2, 0, 131077, 2, 0, 196613, 2, 0, 262149, 2, 0, 327685, 2, 0)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4meun"]
+texture = ExtResource("2_rqoob")
+texture_region_size = Vector2i(128, 128)
+0:0/next_alternative_id = 2
+0:0/0 = 0
+2:0/0 = 0
+1:0/0 = 0
+3:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v3pm4"]
+texture = ExtResource("3_kw56a")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+0:0/0/z_index = 5
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b6tuc"]
+texture = ExtResource("4_ekrv6")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+0:0/0/z_index = 5
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n4okf"]
+texture = ExtResource("5_ihysg")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+0:0/0/z_index = 5
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_560wa"]
+texture = ExtResource("6_tdcu1")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+0:0/0/z_index = 5
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+
+[sub_resource type="TileSet" id="TileSet_cncuw"]
+tile_size = Vector2i(128, 128)
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
+sources/0 = SubResource("TileSetAtlasSource_4meun")
+sources/1 = SubResource("TileSetAtlasSource_v3pm4")
+sources/2 = SubResource("TileSetAtlasSource_b6tuc")
+sources/3 = SubResource("TileSetAtlasSource_n4okf")
+sources/4 = SubResource("TileSetAtlasSource_560wa")
+pattern_0 = SubResource("TileMapPattern_fs3iq")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0a52t"]
+radius = 30.0
+height = 60.0
+
+[sub_resource type="Curve" id="Curve_sjpee"]
+_data = [Vector2(0, 1), 0.0, -0.0429713, 0, 0, Vector2(0.756757, 0), -3.27153, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_qy5sf"]
+font_size = 50
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yut0w"]
+font_size = 32
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_w3uia"]
+font_size = 32
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_746ew"]
+font_size = 32
+font_color = Color(2, 2, 2, 1)
+outline_size = 2
+outline_color = Color(4, 4, 4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ejbnd"]
+
+[sub_resource type="GDScript" id="GDScript_xctrs"]
+script/source = "extends Node2D
+
+var main
+
+func _ready() -> void:
+	main = get_parent()
+
+func _draw() -> void:
+	for chunk in main.loaded_chunks:
+		draw_rect(Rect2(chunk * main.CHUNK_LEN * main.TILE_SIZE, Vector2(main.CHUNK_LEN, main.CHUNK_LEN) * main.TILE_SIZE), Color.BLACK, false)
+"
+
+[sub_resource type="Environment" id="Environment_dwaqb"]
+background_mode = 3
+background_canvas_max_layer = 2
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 1.5
+glow_strength = 0.58
+glow_bloom = 0.05
+glow_blend_mode = 1
+
+[sub_resource type="Shader" id="Shader_bsmh4"]
+code = "shader_type canvas_item;
+
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
+uniform float fadeWidth;
+uniform float randRes;
+uniform float baseAdd;
+
+float random (vec2 uv) {
+    return fract(sin(dot(uv.xy,
+        vec2(12.9898,78.233))) * 43758.5453123 );
+}
+
+void fragment() {
+		vec2 center = vec2(0.5,0.5);
+        vec4 color = texture(screen_texture, SCREEN_UV, 0.0);
+		float circSize = fadeWidth;
+		float dist = distance (UV, center) + (sin(TIME*0.8) * 0.04) + 0.01;
+		vec4 finalColor = color;
+
+//+ (sin(TIME*100.0) * 10.0)
+		float transition = smoothstep(circSize, 0.0, dist) ;
+		finalColor = mix( vec4(0,0,0,255.0 - (sin(TIME*0.8) * 10.0)), color, (transition + (random(UV) - 0.5)/(randRes + 0.0) ));
+
+		COLOR = finalColor;
+
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hbutk"]
+shader = SubResource("Shader_bsmh4")
+shader_parameter/fadeWidth = 4.515
+shader_parameter/randRes = 500.0
+shader_parameter/baseAdd = 31.17
+
+[sub_resource type="LabelSettings" id="LabelSettings_0rysy"]
+font_size = 48
+font_color = Color(1, 0, 0, 1)
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1tcjj"]
+font_size = 64
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_rdjqo")
+noise = SubResource("FastNoiseLite_unddr")
+mineral_noise = SubResource("FastNoiseLite_pv38c")
+village_noise = SubResource("FastNoiseLite_p7kmj")
+
+[node name="TestNav" type="Node2D" parent="."]
+
+[node name="TestNav" type="NavigationAgent2D" parent="TestNav"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." groups=["tilemap"]]
+unique_name_in_owner = true
+texture_filter = 1
+tile_map_data = PackedByteArray("AAD/////AAACAAAAAAAAAP//AAAAAAAAAAAAAAAAAAAAAAAAAAD//wAAAAAAAAAAAAD+////AAAAAAAAAAD9////AAAAAAAAAAD9//7/AAAAAAAAAAD9//3/AAAAAAAAAAD+//3/AAAAAAAAAAD///3/AAAAAAAAAAD///7/AAAAAAAAAAD+/wAAAQAAAAAAAAD+//7/AQAAAAAAAAD9/wAAAQAAAAAAAAD8/wAAAQAAAAAAAAD8////AQAAAAAAAAD8//7/AQAAAAAAAAD8//3/AQAAAAAAAAD8//z/AQAAAAAAAAD9//z/AQAAAAAAAAD+//z/AQAAAAAAAAD///z/AQAAAAAAAAAAAPz/AQAAAAAAAAAAAP3/AQAAAAAAAAAAAP7/AQAAAAAAAAABAP7/AQAAAAAAAAABAP//AQAAAAAAAAABAAAAAQAAAAAAAAABAAEAAQAAAAAAAAAAAAEAAQAAAAAAAAD//wEAAQAAAAAAAAD+/wEAAQAAAAAAAAA=")
+tile_set = SubResource("TileSet_cncuw")
+navigation_enabled = false
+
+[node name="Player" type="CharacterBody2D" parent="." groups=["player"]]
+z_index = 3
+collision_layer = 4
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("7_825ud")
+
+[node name="Line2D" type="Line2D" parent="Player"]
+position = Vector2(-9.4739e-14, 0)
+width = 50.0
+default_color = Color(2, 0, 0, 1)
+texture = ExtResource("8_242yw")
+texture_mode = 1
+joint_mode = 1
+begin_cap_mode = 1
+end_cap_mode = 2
+
+[node name="Sprite" type="Sprite2D" parent="Player"]
+position = Vector2(-1.43051e-06, -9.53674e-07)
+scale = Vector2(0.345, 0.345)
+texture = ExtResource("8_rxkbs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(-0.5, 0)
+shape = SubResource("CapsuleShape2D_0a52t")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(0.8, 0.8)
+
+[node name="Shake" type="Node2D" parent="Player/Camera2D" node_paths=PackedStringArray("target_node")]
+script = ExtResource("10_8ioj0")
+target_node = NodePath("..")
+target_property = &"position"
+min_value = -4.0
+max_value = 4.0
+duration = 0.2
+fall_off = SubResource("Curve_sjpee")
+
+[node name="RayCast2D" type="RayCast2D" parent="Player"]
+z_index = -1
+hit_from_inside = true
+collide_with_areas = true
+
+[node name="Test" type="Sprite2D" parent="Player"]
+visible = false
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.166667, 0.166667)
+texture = ExtResource("8_rxkbs")
+
+[node name="DirToVil" type="Line2D" parent="Player"]
+default_color = Color(0, 1, 0, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Player"]
+
+[node name="Control2" type="Control" parent="Player/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Control" type="Control" parent="Player/CanvasLayer/Control2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Label" type="Label" parent="Player/CanvasLayer/Control2/Control"]
+layout_mode = 1
+offset_left = 10.0
+offset_right = 122.0
+offset_bottom = 69.0
+text = "GOLD: "
+label_settings = SubResource("LabelSettings_qy5sf")
+justification_flags = 35
+
+[node name="Label2" type="Label" parent="Player/CanvasLayer/Control2/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -93.5
+offset_right = 93.5
+offset_bottom = 45.0
+grow_horizontal = 2
+text = "NEXT WAVE:"
+label_settings = SubResource("LabelSettings_yut0w")
+horizontal_alignment = 1
+
+[node name="Time" type="Label" parent="Player/CanvasLayer/Control2/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_top = 36.0
+offset_right = 50.0
+offset_bottom = 81.0
+grow_horizontal = 2
+text = "120"
+label_settings = SubResource("LabelSettings_yut0w")
+horizontal_alignment = 1
+
+[node name="ColorRect2" type="ColorRect" parent="Player/CanvasLayer/Control2"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -52.0
+offset_top = 479.0
+offset_right = -20.0
+offset_bottom = -50.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.154876, 0.154876, 0.154876, 1)
+
+[node name="HealthBar" type="ColorRect" parent="Player/CanvasLayer/Control2/ColorRect2"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -28.0
+offset_top = 3.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.0885599, 0.0885599, 0.0885599, 1)
+script = ExtResource("9_8frw3")
+green = Color(0.427, 1, 0, 1)
+orange = Color(1, 0.576333, 0.18, 1)
+red = Color(1, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="Label2" type="Label" parent="Player/CanvasLayer/Control2"]
+layout_mode = 0
+offset_left = 1074.0
+offset_top = 676.0
+offset_right = 1268.0
+offset_bottom = 745.0
+text = "HULL COND."
+label_settings = SubResource("LabelSettings_w3uia")
+
+[node name="AmmoLabel" type="Label" parent="Player/CanvasLayer/Control2"]
+modulate = Color(0, 1, 0, 1)
+layout_mode = 0
+offset_left = 19.0
+offset_top = 663.0
+offset_right = 224.0
+offset_bottom = 708.0
+text = "AMMO: 100%"
+label_settings = SubResource("LabelSettings_746ew")
+
+[node name="test1" type="TextureRect" parent="Player/CanvasLayer"]
+visible = false
+modulate = Color(0, 4, 0.153, 1)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -360.0
+offset_right = -512.0
+offset_bottom = -232.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_8dxif")
+
+[node name="MBox" type="Control" parent="Player/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1280.0
+offset_top = 720.0
+offset_right = 1281.0
+offset_bottom = 721.0
+
+[node name="MLabel" type="Label" parent="Player/CanvasLayer/MBox"]
+modulate = Color(0, 3, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.5
+offset_top = -12.5
+offset_right = 39.5
+offset_bottom = 10.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "500m"
+label_settings = SubResource("LabelSettings_ejbnd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="test2" type="Sprite2D" parent="Player/CanvasLayer"]
+unique_name_in_owner = true
+modulate = Color(0.143, 4, 0.127, 1)
+z_index = -1
+position = Vector2(1280, 720)
+texture = ExtResource("10_8dxif")
+
+[node name="InvulFrame" type="Timer" parent="Player"]
+wait_time = 0.25
+
+[node name="ShootTimer" type="Timer" parent="Player"]
+wait_time = 0.1
+one_shot = true
+
+[node name="ShootRaycast" type="RayCast2D" parent="Player"]
+collision_mask = 3
+
+[node name="Laser" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource("11_rub8s")
+volume_db = -5.0
+pitch_scale = 1.2
+
+[node name="Minigun" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource("14_duf3y")
+volume_db = -20.0
+
+[node name="MinigunEnd" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource("15_cejuw")
+volume_db = -24.0
+
+[node name="TestDraw" type="Node2D" parent="."]
+visible = false
+z_index = 100
+script = SubResource("GDScript_xctrs")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_dwaqb")
+
+[node name="test2" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("8_rxkbs")
+
+[node name="test3" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("8_rxkbs")
+
+[node name="test4" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("8_rxkbs")
+
+[node name="WaveTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 80.0
+one_shot = true
+
+[node name="Dark" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Dark"]
+
+[node name="ColorRect" type="ColorRect" parent="Dark/CanvasLayer"]
+material = SubResource("ShaderMaterial_hbutk")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MusicManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("11_y3liq")
+
+[node name="Music" type="AudioStreamPlayer" parent="MusicManager"]
+stream = ExtResource("11_psey7")
+bus = &"bg1"
+
+[node name="Fight" type="AudioStreamPlayer" parent="MusicManager"]
+stream = ExtResource("18_627fb")
+bus = &"bg1"
+
+[node name="SpawnTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Restart" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 20
+visible = false
+script = ExtResource("19_2ejen")
+
+[node name="Control" type="Control" parent="Restart"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Restart/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.152941, 0.152941, 0.152941, 0.92549)
+
+[node name="Button" type="Button" parent="Restart/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -15.5
+offset_right = 57.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Restart?"
+
+[node name="Label" type="Label" parent="Restart/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -113.0
+offset_top = -102.58
+offset_right = 113.0
+offset_bottom = -35.58
+grow_horizontal = 2
+grow_vertical = 2
+text = "YOU DIED"
+label_settings = SubResource("LabelSettings_0rysy")
+horizontal_alignment = 1
+
+[node name="Start" type="CanvasLayer" parent="."]
+layer = 128
+visible = false
+script = ExtResource("20_tnt3e")
+
+[node name="ColorRect" type="ColorRect" parent="Start"]
+z_index = 1000
+z_as_relative = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0, 0, 0, 1)
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+script = ExtResource("21_5jcl4")
+
+[node name="ColorRect2" type="ColorRect" parent="PauseMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.152941, 0.152941, 0.152941, 0.92549)
+
+[node name="Label" type="Label" parent="PauseMenu"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -112.5
+offset_right = 112.5
+offset_bottom = 88.0
+grow_horizontal = 2
+text = "Paused"
+label_settings = SubResource("LabelSettings_1tcjj")
+
+[node name="HSlider" type="HSlider" parent="PauseMenu"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 265.0
+offset_bottom = 299.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+max_value = 50.0
+value = 25.0
+
+[connection signal="timeout" from="Player/InvulFrame" to="Player" method="_on_invul_frame_timeout"]
+[connection signal="timeout" from="Player/ShootTimer" to="Player" method="_on_shoot_timer_timeout"]
+[connection signal="timeout" from="WaveTimer" to="." method="_on_wave_timer_timeout"]
+[connection signal="finished" from="MusicManager/Music" to="MusicManager" method="_on_music_finished"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="pressed" from="Restart/Control/Button" to="Restart" method="_on_button_pressed"]
+[connection signal="value_changed" from="PauseMenu/HSlider" to="PauseMenu" method="_on_h_slider_value_changed"]

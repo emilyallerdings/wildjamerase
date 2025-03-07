@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://dlk7fk7ja72b"]
+
+[ext_resource type="Script" path="res://scenes/menu.gd" id="1_8fii4"]
+[ext_resource type="Texture2D" uid="uid://ccx5yfrfwtb07" path="res://assets/enemy.png" id="2_c4itj"]
+[ext_resource type="Texture2D" uid="uid://cvhu6bomi2m5o" path="res://assets/wall.png" id="3_6ykr0"]
+[ext_resource type="Texture2D" uid="uid://c40885koihqyg" path="res://assets/plclogo.png" id="3_arpy3"]
+
+[sub_resource type="Gradient" id="Gradient_ij8na"]
+offsets = PackedFloat32Array(0.511538, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.05, 0.055, 0.1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_k42bf"]
+gradient = SubResource("Gradient_ij8na")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.435, 0)
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -650.0
+offset_bottom = -220.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8fii4")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_k42bf")
+
+[node name="Enemy" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(315, 460)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("2_c4itj")
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.059)
+texture_filter = 1
+layout_mode = 0
+offset_right = 630.0
+offset_bottom = 500.0
+texture = ExtResource("3_6ykr0")
+stretch_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -257.0
+offset_top = -146.0
+offset_right = 255.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_arpy3")

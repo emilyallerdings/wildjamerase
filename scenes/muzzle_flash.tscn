@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bttfkimebduy6"]
+
+[ext_resource type="Texture2D" uid="uid://bmdryklt0iphn" path="res://assets/bullet.png" id="1_wlpd8"]
+[ext_resource type="Script" path="res://script/muzzle_flash.gd" id="2_4i03g"]
+
+[node name="MuzzleFlash" type="Sprite2D"]
+modulate = Color(6, 5, 0, 1)
+position = Vector2(32, -6)
+scale = Vector2(6, 6)
+texture = ExtResource("1_wlpd8")
+script = ExtResource("2_4i03g")

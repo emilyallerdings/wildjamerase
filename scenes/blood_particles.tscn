@@ -1,0 +1,74 @@
+[gd_scene load_steps=11 format=3 uid="uid://uxa8j12hstyl"]
+
+[ext_resource type="Texture2D" uid="uid://gp8n08aeg0e6" path="res://assets/blood_particle.png" id="1_hvmw4"]
+[ext_resource type="Script" path="res://script/BloodParticles.gd" id="2_i87s6"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hti5y"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 11
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_lgkgl"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.421986, 1), 0.0, 0.0, 0, 0, Vector2(0.992908, 0.0137283), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_fppw6"]
+curve = SubResource("Curve_lgkgl")
+
+[sub_resource type="Gradient" id="Gradient_h1rxf"]
+colors = PackedColorArray(0.129559, 0.129558, 0.129558, 1, 0.864675, 0.864675, 0.864675, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bisyx"]
+gradient = SubResource("Gradient_h1rxf")
+
+[sub_resource type="Curve" id="Curve_r0iqc"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.520954), -1.83381, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_kxixq"]
+curve = SubResource("Curve_r0iqc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fey7g"]
+resource_local_to_scene = true
+lifetime_randomness = 0.4
+particle_flag_disable_z = true
+particle_flag_damping_as_friction = true
+emission_shape_offset = Vector3(0, -10, 0)
+angle_min = -10.0
+angle_max = 10.0
+direction = Vector3(0, -1, 0)
+spread = 65.0
+flatness = 0.295
+initial_velocity_min = 40.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 100, 0)
+damping_min = 0.1
+damping_max = 0.2
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_kxixq")
+color = Color(0.713726, 0, 0, 1)
+color_ramp = SubResource("GradientTexture1D_bisyx")
+alpha_curve = SubResource("CurveTexture_fppw6")
+anim_offset_max = 1.0
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 6.07
+
+[node name="BloodParticles" type="GPUParticles2D"]
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_hti5y")
+emitting = false
+amount = 10
+amount_ratio = 0.8
+process_material = SubResource("ParticleProcessMaterial_fey7g")
+texture = ExtResource("1_hvmw4")
+lifetime = 1.5
+one_shot = true
+speed_scale = 2.5
+explosiveness = 1.0
+randomness = 0.2
+fixed_fps = 144
+script = ExtResource("2_i87s6")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

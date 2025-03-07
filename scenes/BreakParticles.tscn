@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://bqmjdnyfth46c"]
+
+[ext_resource type="Texture2D" uid="uid://bmdryklt0iphn" path="res://assets/bullet.png" id="1_u2j3f"]
+
+[sub_resource type="Curve" id="Curve_vkugy"]
+_data = [Vector2(0.246094, 0), 0.0, 0.0, 0, 0, Vector2(0.480469, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_o4lrj"]
+curve = SubResource("Curve_vkugy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_c22s6"]
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 243.15
+initial_velocity_max = 465.75
+gravity = Vector3(0, 98, 0)
+scale_min = 15.0
+scale_max = 15.0
+scale_curve = SubResource("CurveTexture_o4lrj")
+color = Color(2, 2, 0, 1)
+
+[sub_resource type="GDScript" id="GDScript_871ly"]
+script/source = "extends GPUParticles2D
+
+
+func _ready() -> void:
+	emitting = true
+
+func _on_finished() -> void:
+	queue_free()
+	pass # Replace with function body.
+"
+
+[node name="BreakParticles" type="GPUParticles2D"]
+z_index = 8
+z_as_relative = false
+texture_filter = 1
+emitting = false
+amount = 30
+process_material = SubResource("ParticleProcessMaterial_c22s6")
+texture = ExtResource("1_u2j3f")
+lifetime = 0.3
+one_shot = true
+preprocess = 0.2
+explosiveness = 1.0
+randomness = 1.0
+fixed_fps = 144
+script = SubResource("GDScript_871ly")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

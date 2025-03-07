@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bit63yjaq81yo"]
+
+[sub_resource type="Curve" id="Curve_ptvt4"]
+_data = [Vector2(0, 0.366883), 0.0, 0.0, 0, 0, Vector2(1, 0.561039), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_lwuvp"]
+colors = PackedColorArray(5, 5, 1, 0, 5, 5, 0, 1)
+
+[node name="Line2D" type="Line2D"]
+z_index = 2
+width_curve = SubResource("Curve_ptvt4")
+default_color = Color(5, 5, 0, 1)
+gradient = SubResource("Gradient_lwuvp")
+joint_mode = 1
+begin_cap_mode = 2
+end_cap_mode = 2
